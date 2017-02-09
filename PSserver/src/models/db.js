@@ -1,3 +1,3 @@
 import mongojs from "mongojs";
 
-export default mongojs('pSmykker', ['users']);
+export default mongojs("PSRR", ["users", "requests"]);

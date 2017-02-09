@@ -15,7 +15,8 @@ class NavigationBar extends React.Component {
 
         const userLinks = (
             <ul className="nav navbar-nav navbar-right">
-                <li><Link to="new-event">Serect Page</Link></li>
+                <li><Link activeStyle={{color: "#375a7f"}} to="search-request">Search request</Link></li>
+                <li><Link activeStyle={{color: "#375a7f"}} to="create-request">Create request</Link></li>
                 <li><a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
             </ul>
         );
@@ -24,18 +25,19 @@ class NavigationBar extends React.Component {
 
         const guestLinks = (
             <ul className="nav navbar-nav navbar-right">
-                <li><Link to="/signup">Sign up</Link></li>
-                <li><Link to="/login">Login</Link></li>
+                <li><Link activeStyle={{color: "#375a7f"}} to="search-request">Search request</Link></li>
+                <li><Link activeStyle={{color: "#375a7f"}} to="/signup">Sign up</Link></li>
+                <li><Link activeStyle={{color: "#375a7f"}} to="/login">Login</Link></li>
             </ul>
         );
 
 
 
         return (
-            <nav className="navbar navbar-default">
+            <nav className="navbar navbar-inverse navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <Link to="/" className="navbar-brand">Smykker</Link>
+                        <Link activeStyle={{color: "#375a7f"}} to="/" className="navbar-brand">Smykker</Link>
                     </div>
 
                     <div id="navbar" className="navbar-collapse collapse">

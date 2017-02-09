@@ -5,7 +5,7 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import { connect } from "react-redux";
 import { userSignupRequest, isUserExists } from "../../actions/signupActions";
 import { addFlashMessage } from "../../actions/flashMessages";
-
+import { capitalizeFirstLetter } from "../../actions/commonActions";
 
 import Validator from "validator";
 
@@ -39,10 +39,6 @@ function validateSignupInput(data){
 }
 
 
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 class SignupForm extends React.Component {
 

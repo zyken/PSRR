@@ -34,7 +34,7 @@ class LoginForm extends React.Component {
             password: "",
             errors: {},
             isLoading: false
-        };
+        }
     }
 
     isValid(){
