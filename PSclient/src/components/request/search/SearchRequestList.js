@@ -11,7 +11,7 @@ class SearchRequestList extends React.Component {
 
         this.state = {
             errors: {},
-            users: []
+            requests: []
         }
         this.styles = {
             ul: {
@@ -22,15 +22,22 @@ class SearchRequestList extends React.Component {
 
 
     componentWillMount(){
-        this.props.getRequests();
+        //const intervalId = setInterval(() => {
+            this.props.getRequests();
+        //},5000);
+        //this.setState({ intervalId });
+    }
+
+    compoenntWillUnmount(){
+        //clearInterval(this.state.intervalId);
     }
 
     displayUsers(){
-        if(this.props.request.usersData.users){
-            if(isEmpty(this.props.request.usersData.errors)){
-                return this.props.request.usersData.users.map((user, index) => {
+        if(this.props.request.requestsData.requests){
+            if(isEmpty(this.props.request.requestsData.errors)){
+                return this.props.request.requestsData.requests.map((request, index) => {
                     return (
-                        <SearchRequestItem key={user._id} user={user} />
+                        <SearchRequestItem key={index} request={request} />
                     );
                 });
             }

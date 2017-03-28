@@ -1,6 +1,6 @@
 
 const initialState = {
-    usersData: {}
+    requestsData: {}
 };
 
 export default (state = initialState, action = {}) => {
@@ -10,7 +10,7 @@ export default (state = initialState, action = {}) => {
         case "GET_REQUESTS":
             return {
                 ...state,
-                usersData: action.users
+                requestsData: action.requests
             }
         default: return state;
     }

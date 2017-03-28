@@ -2,48 +2,75 @@ import express from "express";
 import db from "../models/db";
 import requestValidator from "../validations/requestValidator";
 import authenticate from "../middleware/authenticate";
+import formidable from "formidable";
+import cloudinary from "cloudinary";
+
+cloudinary.config({
+    cloud_name: "dlmjfhwul",
+    api_key: "367172858755665",
+    api_secret: "rsPMV7qoLU5qZBQc-28m0zFBat4"
+});
 
 let router = express.Router();
 
-router.post("/", authenticate, (req, res) => {
-
-    const { heading, product, area, requestInfo, material } = req.body;
+router.post("/", (req, res) => {
+    //TODO validate files
+    const { heading, product, area, requestInfo, material, files } = req.body;
 
     const { errors, isValid } = requestValidator(req.body);
 
-    const { id, username, email } = req.currentUser;
+    let form = new formidable.IncomingForm();
 
-    if (isValid){
-        db.requests.insert(
-            { heading,
-                product,
-                area,
-                requestInfo,
-                material,
-                id,
-                username,
-                email,
-                created_at: new Date(),
-                updated_at: new Date()
-            }, (err, request) => {
-            if(err){
-                res.status(500).json({errors: err});
+
+    form.parse(req, (err, fields, files) => {
+        if (err) {
+            res.json({error: err.message});
+        } else{
+            const { product, name, email, phone, address, zipCode, material, description } = fields;
+            const { errors, isValid } = requestValidator(fields);
+
+            Object.keys(files).forEach((filename) => {
+                cloudinary.uploader.upload(files[filename].path, (result) => {
+                    db.requests.update({ email }, {$push: {"images": [result.secure_url]}});
+                });
+            });
+
+            if (isValid){
+                db.requests.insert(
+                    { product,
+                        name,
+                        email,
+                        phone,
+                        address,
+                        zipCode,
+                        material,
+                        description,
+                        images: [],
+                        created_at: new Date(),
+                        updated_at: new Date()
+                    }, (err, request) => {
+                    if(err){
+                        res.status(500).json({errors: err});
+                    } else{
+                        res.status(201).send({errors: {}, isValid});
+                    }
+                });
             } else{
-                res.status(201).send({errors: {}, isValid});
+                res.status(400).json({errors: errors});
             }
-        });
-    } else{
-        res.status(400).json({errors: errors});
-    }
+        }
+
+    });
+
 });
 
 router.get("/", (req, res) => {
-    db.requests.find().sort({updated_at: -1 }, (err, users) => {
+    db.requests.find().sort({updated_at: -1 }, (err, requests) => {
         if(err){
             res.status(500).json({errors: err});
         } else{
-            if(users){
-                res.json({errors: {}, users});
+            if(requests){
+                res.json({errors: {}, requests});
             }
         }
     });
@@ -76,5 +103,7 @@ router.get("/q?*", (req, res) => {
     });
 
 });
+
+
 
 export default router;

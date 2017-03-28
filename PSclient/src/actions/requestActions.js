@@ -3,6 +3,7 @@ import axios from "axios";
 export function addRequest(data){
     return dispatch => {
         return axios.post("/api/requests", data);
+
     }
 }
 
@@ -11,7 +12,7 @@ export function getRequests(){
         axios.get("/api/requests").then((res) => {
             dispatch({
                 type: "GET_REQUESTS",
-                users: res.data
+                requests: res.data
             });
         });
     }
@@ -21,10 +22,11 @@ export function getRequests(){
 export function getProducts(){
     return dispatch => {
         return [
-            "halskæde",
             "armbånd",
-            "ring",
-            "ørering",
+            "halskæder",
+            "ringe",
+            "vedhæng",
+            "øreringe",
             "andet"
         ]
     };
@@ -47,11 +49,22 @@ export function getAreas(){
 export function getMaterials(){
     return dispatch => {
         return [
-            "bronze",
+            "guld - 8 karat",
+            "guld - 9 karat",
+            "guld - 14 karat",
+            "guld - 18 karat",
+            "hvidguld - 8 karat",
+            "hvidguld - 9 karat",
+            "hvidguld - 14 karat",
+            "hvidguld - 18 karat",
+            "rosaguld - 8 karat",
+            "rosaguld - 9 karat",
+            "rosaguld - 14 karat",
+            "rosaguld - 18 karat",
             "sølv",
-            "guld",
-            "diamant",
-            "andet"
+            "oxideret sølv",
+            "forgyldt sølv - guld",
+            "forgyldt sølv - rosa",
         ];
     }
 }

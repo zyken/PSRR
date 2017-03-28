@@ -13,7 +13,8 @@ let app = express();
 let httpServer = http.Server(app);
 let io = socketIO(httpServer)
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000 }))
 
 app.use("/api/users", users);
 app.use("/api/auth", auth);
